@@ -47,7 +47,7 @@ Des bugs de sécurité majeurs !
 
 ## Licence
 
-Ce projet vous est proposé suivant les conditions de la licence GNU GPLv3.
+Ce projet est soumis aux conditions de la licence GNU GPLv3.
 
 [GNU General Public License v3.0 | Choose a License](https://choosealicense.com/licenses/gpl-3.0/)
 
