@@ -14,14 +14,22 @@ try {
     exit();
 }
 
-// absence de sécurisation des données du formulaire
-
 // création de la requête sql
-$sql = "SELECT * FROM user WHERE email = '{$email}' AND enabled = TRUE";
+$sql = "SELECT * FROM user WHERE email = :email AND enabled = TRUE";
+$stmt = $conn->prepare($sql);
 
 // exécution de la requête sql
 try {
-    $stmt = $conn->query($sql);
+    // sécurisation passive des données du formulaire
+    $stmt->execute([
+        'email' => $email,
+    ]);
+
+    // capture la sortie de debugDumpParams()
+    ob_start();
+    $stmt->debugDumpParams();
+    $output = ob_get_contents();
+    ob_end_clean();
 } catch (PDOException $e) {
     echo 'erreur : ' . $e->getMessage() . "<br/>";
     echo $sql . "<br/>";
@@ -34,16 +42,16 @@ try {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Injection de code SQL - Version vulnérable</title>
+    <title>Injection de code SQL - Version sécurisée avec prepare()</title>
 </head>
 <body>
     <h1>src-security</h1>
 
-    <h2>Injection de code SQL - Version vulnérable</h2>
+    <h2>Injection de code SQL - Version sécurisée avec prepare()</h2>
 
     <p>
         Requête SQL générée :<br>
-        <code><pre><?= $sql ?></pre></code>
+        <code><pre><?= $output ?></pre></code>
     </p>
 
     <p>

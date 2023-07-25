@@ -14,10 +14,11 @@ try {
     exit();
 }
 
-// absence de sécurisation des données du formulaire
+// sécurisation active des données du formulaire
+$sanitizedEmail = $conn->quote($email);
 
 // création de la requête sql
-$sql = "SELECT * FROM user WHERE email = '{$email}' AND enabled = TRUE";
+$sql = "SELECT * FROM user WHERE email = {$sanitizedEmail} AND enabled = TRUE";
 
 // exécution de la requête sql
 try {
@@ -34,12 +35,12 @@ try {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Injection de code SQL - Version vulnérable</title>
+    <title>Injection de code SQL - Version sécurisée avec quote()</title>
 </head>
 <body>
     <h1>src-security</h1>
 
-    <h2>Injection de code SQL - Version vulnérable</h2>
+    <h2>Injection de code SQL - Version sécurisée avec quote()</h2>
 
     <p>
         Requête SQL générée :<br>
